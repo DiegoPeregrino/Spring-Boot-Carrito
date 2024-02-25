@@ -43,8 +43,8 @@ public class ProductoController {
         if (producto != null) {
             Detalle detalle = new Detalle();
             detalle.setProducto(producto);
-            detalle.setCantidad(1); // Cantidad inicial
-            detalle.setSubtotal(producto.getPrecio()); // Subtotal inicial
+            detalle.setCantidad(1);
+            detalle.setSubtotal(producto.getPrecio());
             List<Detalle> carrito = (List<Detalle>) model.getAttribute("carrito");
             carrito.add(detalle);
             model.addAttribute("carrito", carrito);
@@ -55,6 +55,20 @@ public class ProductoController {
     @GetMapping("/carrito")
     public String carrito() {
         return "carrito";
+    }
+    @GetMapping("/eliminar/{idProducto}")
+    public String eliminarProducto(Model model, @PathVariable(name = "idProducto") int idProducto) {
+        List<Detalle> carrito = (List<Detalle>) model.getAttribute("carrito");
+        if (carrito != null) {
+            for (int i = 0; i < carrito.size(); i++) {
+                if (carrito.get(i).getProducto().getIdProducto() == idProducto) {
+                    carrito.remove(i);
+                    break; 
+                    }
+            }
+            model.addAttribute("carrito", carrito);
+        }
+        return "redirect:/carrito";
     }
 
     @PostMapping("/actualizarCarrito")
@@ -78,18 +92,8 @@ public class ProductoController {
     }
 
     @PostMapping("/pagar")
-    public String pagar(Model model, @ModelAttribute("carrito") List<Detalle> carrito) {
+    public String pagar(Model model, @ModelAttribute("carrito") List<Detalle> carrito, @ModelAttribute("total") double total) {
         Venta venta = new Venta();
-        double total = 0.0;
-        for (Detalle detalle : carrito) {
-            total += detalle.getSubtotal();
-        }
-        
-        double descuento = total * 0.25; // Descuento del 25%
-        double totalSinEnvio = total - descuento; // Subtotal sin el descuento
-        double costoEnvio = totalSinEnvio * 0.05; // Costo de envío (5% del subtotal sin el descuento)
-        total += costoEnvio; // Total con descuento y costo de envío
-        
         venta.setMontoTotal(total);
         ventaRepository.save(venta);
 
@@ -101,7 +105,7 @@ public class ProductoController {
         carrito.clear();
         model.addAttribute("carrito", carrito);
 
-        return "confirmacion_compra";
+        return "confirmacion_pago";
     }
 
     @ModelAttribute("carrito")
@@ -114,4 +118,5 @@ public class ProductoController {
         return 0.0;
     }
 }
+
 

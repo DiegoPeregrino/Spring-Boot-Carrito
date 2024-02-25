@@ -65,23 +65,22 @@
                     <tbody>
                     <tr><td>Subtotal:</td></tr>
                     <tr>
-                        <td><input type="text" class="form-control fw-bold" th:value="${'S/ ' + total}"></td>
+                        <td><input type="text" class="form-control fw-bold" th:value="${'S/ ' + subtotal}"></td>
                     </tr>
                     <tr><td>Precio Envío:</td></tr>
                     <tr>
-                        <td><input type="text" class="form-control fw-bold" th:value="${'S/ ' + (total * 0.05)}"></td>
+                        <td><input type="text" class="form-control fw-bold" th:value="${'S/ ' + envio}"></td>
                     </tr>
                     <tr><td>Descuento:</td></tr>
                     <tr>
                         <td>
-                            <input type="text" class="form-control fw-bold" th:value="${'S/ ' + (producto.tipo == 'camara' ? total * 0.2 : 0)}">
+                            <input type="text" class="form-control fw-bold" th:value="${'S/ ' + descuento}"></td>
                         </td>
                     </tr>
                     <tr><td>Total:</td></tr>
                     <tr>
                         <td>
-                            <input type="text" class="form-control fw-bold" th:value="${'S/ ' + (total + (total * 0.05) - (producto.tipo == 'camara' ? total * 0.2 : 0))}">
-                        </td>
+                            <input type="text" class="form-control fw-bold" th:value="${'S/ ' + total}"></td>
                     </tr>
                     </tbody>
                     <tfoot class="table-secondary">
@@ -104,3 +103,4 @@
     </div>
 </body>
 </html>
+
