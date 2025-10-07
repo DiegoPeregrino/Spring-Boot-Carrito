@@ -1,0 +1,46 @@
+### Java / Maven / IDE ignores for ProyectoShop
+
+# Build output
+/target/
+/bin/
+build/
+out/
+
+# Compiled class files
+*.class
+
+# Package files
+*.jar
+*.war
+*.ear
+
+# Maven wrapper and local maven
+/.mvn/
+mvnw
+mvnw.cmd
+
+# IDEs
+/.idea/
+*.iml
+.classpath
+.project
+/.settings/
+.vscode/
+
+# Logs
+*.log
+log/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+
+# Coverage
+coverage/
+*.coverage
+
+# Misc
+target-*/

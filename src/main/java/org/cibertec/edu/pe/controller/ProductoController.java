@@ -38,14 +38,14 @@ public class ProductoController {
     }
 
     @GetMapping("/agregar/{idProducto}")
-    public String agregar(Model model, @PathVariable(name = "idProducto", required = true) int idProducto) {
+    public String agregar(Model model, @PathVariable(name = "idProducto", required = true) int idProducto,
+                          @ModelAttribute("carrito") List<Detalle> carrito) {
         Producto producto = productoRepository.findById(idProducto).orElse(null);
         if (producto != null) {
             Detalle detalle = new Detalle();
             detalle.setProducto(producto);
             detalle.setCantidad(1);
             detalle.setSubtotal(producto.getPrecio());
-            List<Detalle> carrito = (List<Detalle>) model.getAttribute("carrito");
             carrito.add(detalle);
             model.addAttribute("carrito", carrito);
         }
@@ -57,14 +57,14 @@ public class ProductoController {
         return "carrito";
     }
     @GetMapping("/eliminar/{idProducto}")
-    public String eliminarProducto(Model model, @PathVariable(name = "idProducto") int idProducto) {
-        List<Detalle> carrito = (List<Detalle>) model.getAttribute("carrito");
-        if (carrito != null) {
+    public String eliminarProducto(Model model, @PathVariable(name = "idProducto") int idProducto,
+                                   @ModelAttribute("carrito") List<Detalle> carrito) {
+        if (!carrito.isEmpty()) {
             for (int i = 0; i < carrito.size(); i++) {
                 if (carrito.get(i).getProducto().getIdProducto() == idProducto) {
                     carrito.remove(i);
-                    break; 
-                    }
+                    break;
+                }
             }
             model.addAttribute("carrito", carrito);
         }
